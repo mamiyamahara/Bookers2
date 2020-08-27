@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   #ログインしていない状態で他のページに飛んだときログインページに戻る)
   before_action :authenticate_user!
   #(ログインユーザー以外の人がアクセスできないように制限をかける記述)
-  before_action :ensure_current_user, {only: [:edit,:update,:destroy]}
+  before_action :ensure_current_user, {only: [:edit]}
 
   def show
     @book = Book.new
@@ -23,8 +23,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-      flash[:notice] = "You have updated user successfully."
-      redirect_to user_path(@user.id)
+      redirect_to user_path(@user.id), notice: "You have updated user successfully."
     else
       render :edit
     end
